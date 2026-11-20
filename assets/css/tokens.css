@@ -1,0 +1,207 @@
+/* ==========================================================================
+   Design tokens
+   Warm graphite base, translucent glass layers, restrained section accents.
+   ========================================================================== */
+
+@font-face { font-family: 'Figtree'; src: url('../fonts/figtree-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Figtree'; src: url('../fonts/figtree-latin-500-normal.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Figtree'; src: url('../fonts/figtree-latin-600-normal.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('../fonts/newsreader-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('../fonts/newsreader-latin-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('../fonts/newsreader-latin-500-normal.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Newsreader'; src: url('../fonts/newsreader-latin-500-italic.woff2') format('woff2'); font-weight: 500; font-style: italic; font-display: swap; }
+
+:root {
+  color-scheme: light;
+
+  /* Base: pale sky, layered with soft colour pools (see base.css) */
+  --bg: #eef3f9;
+  --bg-raise: #f6f9fd;
+  --bg-sunken: #e4ecf6;
+
+  /* Ink: deep navy rather than black */
+  --ink-1: #14243d;
+  --ink-2: #3a4d6b;
+  --ink-3: #5c6f8d;
+  --ink-4: #8395ad;
+
+  /* Hairlines */
+  --line-1: rgba(32, 70, 128, 0.08);
+  --line-2: rgba(32, 70, 128, 0.13);
+  --line-3: rgba(32, 70, 128, 0.22);
+
+  /* Frosted glass */
+  --glass-chrome: rgba(247, 250, 255, 0.62);
+  --glass-panel: linear-gradient(160deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.5) 100%);
+  --glass-panel-solid: #f8fbff;
+  --glass-edge: rgba(255, 255, 255, 0.8);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 1px 2px rgba(28, 58, 104, 0.05), 0 12px 32px -18px rgba(28, 58, 104, 0.28);
+  --inset: rgba(255, 255, 255, 0.78);
+  --blur: saturate(170%) blur(20px);
+
+  /* Section accents: calm, ink-strength so they read on light glass */
+  --accent-consumer: #2c8a71;
+  --accent-production: #2f6db3;
+  --accent-costs: #6f5bc2;
+  --accent-competition: #137f95;
+  --accent-monopoly: #bf5468;
+  --accent-oligopoly: #8455b3;
+  --accent-games: #3a6cd3;
+  --accent-welfare: #9a7413;
+  --accent-general: #56677f;
+  --accent: #2f6db3; /* default, overridden per section */
+
+  /* Semantic */
+  --clue: #b5761c;
+  --trap: #c4473a;
+  --ok: #2c8a71;
+
+  /* Type */
+  --font-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Figtree', ui-sans-serif, system-ui, sans-serif; /* labels use tabular figures, not a code font */
+  --font-serif: 'Newsreader', 'Iowan Old Style', Georgia, serif;
+
+  --fs-xs: 0.8rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1.03rem;
+  --fs-md: 1.1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.625rem;
+  --fs-2xl: clamp(2.1rem, 3.4vw, 2.9rem);
+  --fs-3xl: clamp(2.6rem, 5.4vw, 4.1rem);
+
+  /* Space (4px grid) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --s-6: 24px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px; --s-20: 80px;
+
+  /* Radii */
+  --r-xs: 6px;
+  --r-sm: 9px;
+  --r-md: 14px;
+  --r-lg: 18px;
+
+  /* Layout */
+  --sidebar-w: 284px;
+  --topbar-h: 62px;
+  --subnav-h: 50px;
+  --content-max: 980px;
+  --toc-w: 216px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Theme plumbing (overridden in dark mode) */
+  --glass-rgb: 255, 255, 255;
+  --glass-k: 1;
+  --shadow-rgb: 28, 58, 104;
+  --shadow-k: 1;
+  --edge-hi: #ffffff;
+  --pressed: #ffffff;
+  --card-open: linear-gradient(160deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.64));
+  --drawer-bg: rgba(246, 250, 255, 0.9);
+  --popover: rgba(248, 251, 255, 0.96);
+  --thead-bg: rgba(236, 243, 252, 0.7);
+  --sticky-th: #f3f7fc;
+  --scrim: rgba(20, 40, 70, 0.22);
+  --thumb: rgba(40, 80, 140, 0.18);
+  --thumb-hover: rgba(40, 80, 140, 0.3);
+  --brand-strong: #1f4f8f;
+  --brand-strong-2: #193f73;
+  --brand-on: #ffffff;
+  --brand-ink: #1f4f8f;
+  --highlight: rgba(140, 190, 245, 0.42);
+  --mark-bg: rgba(255, 255, 255, 0.75);
+  --mark-line-1: #2f6db3;
+  --mark-line-2: #7fb6c9;
+  --mark-dot: #ffffff;
+  --atmos:
+    radial-gradient(48vw 46vh at 6% 2%, rgba(140, 186, 240, 0.55), transparent 70%),
+    radial-gradient(42vw 44vh at 96% 12%, rgba(196, 184, 250, 0.42), transparent 70%),
+    radial-gradient(50vw 48vh at 78% 98%, rgba(150, 222, 214, 0.42), transparent 70%),
+    radial-gradient(36vw 36vh at 18% 88%, rgba(255, 214, 196, 0.32), transparent 70%),
+    linear-gradient(180deg, #f3f7fc 0%, #e9f0f8 100%);
+}
+
+/* ---------- Dark theme: deep night-blue glass ---------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  /* Neutral graphite: near-black with soft greys, colour only in the accents */
+  --bg: #0c0c0d;
+  --bg-raise: #141415;
+  --bg-sunken: #080808;
+
+  --ink-1: #ededee;
+  --ink-2: #bdbdc1;
+  --ink-3: #8f8f95;
+  --ink-4: #636368;
+
+  --line-1: rgba(255, 255, 255, 0.07);
+  --line-2: rgba(255, 255, 255, 0.11);
+  --line-3: rgba(255, 255, 255, 0.2);
+
+  --glass-chrome: rgba(14, 14, 15, 0.7);
+  --glass-panel: linear-gradient(160deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 100%);
+  --glass-panel-solid: #161617;
+  --glass-edge: rgba(255, 255, 255, 0.1);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 36px -18px rgba(0, 0, 0, 0.8);
+  --inset: rgba(0, 0, 0, 0.42);
+
+  --accent-consumer: #7fcdb3;
+  --accent-production: #8fb6ea;
+  --accent-costs: #b3a8ec;
+  --accent-competition: #74c6d2;
+  --accent-monopoly: #ee9aa8;
+  --accent-oligopoly: #c9a6e8;
+  --accent-games: #9db7f2;
+  --accent-welfare: #e2c878;
+  --accent-general: #b9b9bf;
+  --accent: #d6d6da;
+
+  --clue: #e5bd6c;
+  --trap: #ef8f82;
+  --ok: #7fcdb3;
+
+  --glass-rgb: 255, 255, 255;
+  --glass-k: 0.1;
+  --shadow-rgb: 0, 0, 0;
+  --shadow-k: 2.4;
+  --edge-hi: rgba(255, 255, 255, 0.22);
+  --pressed: rgba(255, 255, 255, 0.13);
+  --card-open: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  --drawer-bg: rgba(16, 16, 17, 0.95);
+  --popover: rgba(22, 22, 23, 0.97);
+  --thead-bg: rgba(255, 255, 255, 0.05);
+  --sticky-th: #151516;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --thumb: rgba(255, 255, 255, 0.14);
+  --thumb-hover: rgba(255, 255, 255, 0.26);
+  --brand-strong: #ececee;
+  --brand-strong-2: #ffffff;
+  --brand-on: #111112;
+  --brand-ink: #f2f2f3;
+  --highlight: rgba(255, 255, 255, 0.16);
+  --mark-bg: rgba(255, 255, 255, 0.06);
+  --mark-line-1: #d6d6da;
+  --mark-line-2: #8f8f95;
+  --mark-dot: #0c0c0d;
+  --atmos:
+    radial-gradient(55vw 50vh at 8% 0%, rgba(255, 255, 255, 0.06), transparent 70%),
+    radial-gradient(45vw 45vh at 96% 100%, rgba(255, 255, 255, 0.04), transparent 70%),
+    linear-gradient(180deg, #111112 0%, #0b0b0c 100%);
+}
+
+[data-accent='consumer'] { --accent: var(--accent-consumer); }
+[data-accent='production'] { --accent: var(--accent-production); }
+[data-accent='costs'] { --accent: var(--accent-costs); }
+[data-accent='competition'] { --accent: var(--accent-competition); }
+[data-accent='monopoly'] { --accent: var(--accent-monopoly); }
+[data-accent='oligopoly'] { --accent: var(--accent-oligopoly); }
+[data-accent='games'] { --accent: var(--accent-games); }
+[data-accent='welfare'] { --accent: var(--accent-welfare); }
+[data-accent='general'] { --accent: var(--accent-general); }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ease: linear; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

@@ -38,39 +38,46 @@ export default {
           answer: [
             {
               heading: 'The objective: long-term value creation',
-              paras: [
-                t`Schoenmaker & Schramade argue that the firm should aim for **long-term value creation**, meaning **integrated value**: financial value together with social and environmental value, for shareholders and other stakeholders. This goes further than maximising short-term profit or this year's share price.`,
+              list: [
+                t`Schoenmaker & Schramade argue the firm should aim for **long-term value creation**.`,
+                t`That means **integrated value**: financial value **plus** social and environmental value.`,
+                t`It is created for shareholders **and** other stakeholders (employees, customers, society).`,
+                t`It goes further than maximising short-term profit or this year's share price.`,
               ],
             },
             {
               heading: 'Why managers may not act in line with it',
               list: [
-                t`**The principal–agent problem.** Shareholders (principals) own the firm, but managers (agents) run it. Their interests differ, and shareholders cannot see everything managers do, so there is information asymmetry.`,
-                t`**Short-termism.** Bonuses and share options are often tied to annual profit, quarterly earnings or the current share price. Managers may cut R&D, training, maintenance or sustainability spending to hit targets, even though this destroys value later.`,
-                t`**Career concerns and short tenure.** A typical CEO stays for only a few years. Long-term benefits arrive after they have left, while the costs fall on their own track record.`,
-                t`**Empire building and perks.** Managers may grow the firm for status and pay (pay rises with firm size), make poor acquisitions, or consume perks rather than return cash to investors (Jensen's free cash flow problem).`,
-                t`**Risk aversion.** A manager's job and wealth are concentrated in one firm, so they may reject risky but positive-NPV projects that diversified shareholders would accept.`,
-                t`**Externalities are not priced.** Social and environmental costs (emissions, poor labour practices) often do not appear in profit, so a profit-focused manager ignores them even though they create risks for long-term value.`,
-                t`**Investor short-termism.** Pressure from short-horizon investors and analysts' quarterly forecasts can push managers towards short-term results.`,
+                { label: 'The principal–agent problem', items: [t`Shareholders (principals) own the firm; managers (agents) run it.`, t`Their interests differ.`, t`Shareholders cannot see everything managers do (information asymmetry).`] },
+                { label: 'Short-termism', items: [t`Bonuses and options are often tied to annual profit, quarterly earnings or the current share price.`, t`Managers may cut R&D, training, maintenance or sustainability spending to hit targets.`, t`This boosts results now but destroys value later.`] },
+                { label: 'Career concerns and short tenure', items: [t`A typical CEO stays only a few years.`, t`Long-term benefits arrive after they leave; the costs fall on their own record.`] },
+                { label: 'Empire building and perks', items: [t`Pay and status rise with firm size, so managers may over-expand or make poor acquisitions.`, t`They may spend on perks instead of returning cash (Jensen's free cash flow problem).`] },
+                { label: 'Risk aversion', items: [t`A manager's job and wealth are tied to one firm.`, t`So they may reject risky but positive-NPV projects that diversified shareholders would want.`] },
+                { label: 'Externalities are not priced', items: [t`Social and environmental costs (emissions, poor labour practices) often do not show up in profit.`, t`A profit-focused manager ignores them, even though they threaten long-term value.`] },
+                { label: 'Investor short-termism', items: [t`Short-horizon investors and analysts' quarterly forecasts push managers towards short-term results.`] },
               ],
             },
             {
               heading: 'Measures to align managers with long-term value',
               list: [
-                t`**Long-term executive pay.** Pay part of the remuneration in shares or options that vest over several years (e.g. 3–5 years), with clawback clauses. Include long-term and ESG targets, not just this year's earnings. Rewards then depend on lasting value.`,
-                t`**Managerial share ownership.** Require executives to hold shares, so they gain and lose alongside shareholders.`,
-                t`**An effective, independent board.** Non-executive directors monitor management, approve strategy, and set and assess pay. Separate the CEO and chair roles, and use audit and remuneration committees.`,
-                t`**Shareholder engagement and stewardship.** Large, long-term investors (pension funds, stewardship-code signatories) engage with management, vote at AGMs (including say-on-pay) and push for long-term strategy. Schoenmaker & Schramade stress the role of long-term investors.`,
-                t`**Transparent and integrated reporting.** Audited accounts plus reporting on social and environmental performance (e.g. integrated reports, sustainability disclosures) reduce information asymmetry and make long-term performance visible.`,
-                t`**Market for corporate control.** A badly run, undervalued firm can be taken over and its managers replaced, which disciplines management.`,
-                t`**Debt discipline.** Debt commits the firm to paying out cash, which limits the free cash flow managers can waste.`,
-                t`**Regulation and governance codes.** Corporate governance codes, company law and directors' duties set minimum standards of behaviour.`,
+                { label: '1. Long-term executive pay', items: [t`Pay part of remuneration in shares or options that vest over 3–5 years.`, t`Add clawback clauses for later-discovered problems.`, t`Include long-term and ESG targets, not just this year's earnings.`] },
+                { label: '2. Managerial share ownership', items: [t`Require executives to hold shares.`, t`They then gain and lose alongside shareholders.`] },
+                { label: '3. An effective, independent board', items: [t`Non-executive directors monitor management and approve strategy.`, t`Separate the CEO and chair roles.`, t`Audit and remuneration committees oversee accounts and pay.`] },
+                { label: '4. Shareholder engagement and stewardship', items: [t`Large long-term investors (e.g. pension funds) engage with management.`, t`They vote at AGMs, including say-on-pay.`, t`Schoenmaker & Schramade stress the role of long-term investors.`] },
+                { label: '5. Transparent and integrated reporting', items: [t`Audited accounts plus reporting on social and environmental performance.`, t`Reduces information asymmetry and makes long-term performance visible.`] },
+                { label: '6. Market for corporate control', items: [t`A badly run, undervalued firm can be taken over and its managers replaced.`] },
+                { label: '7. Debt discipline', items: [t`Interest payments commit cash, limiting free cash flow managers can waste.`] },
+                { label: '8. Regulation and governance codes', items: [t`Governance codes, company law and directors' duties set minimum standards.`] },
               ],
             },
             {
               heading: 'Evaluation (for top marks)',
-              paras: [
-                t`None of these measures is perfect, and each has costs. Share-based pay can encourage manipulation of the share price around vesting dates. Boards can be captured by the CEO. Monitoring is costly (these are **agency costs**). A combination of incentives, monitoring and transparency works best.`,
+              list: [
+                t`No measure is perfect, and each has costs (**agency costs**).`,
+                t`Share-based pay can encourage manipulating the share price around vesting dates.`,
+                t`Boards can be captured by a powerful CEO.`,
+                t`Monitoring is expensive.`,
+                t`**Best approach:** a combination of incentives, monitoring and transparency.`,
               ],
             },
           ],
@@ -90,7 +97,10 @@ export default {
           answer: [
             {
               heading: 'Definition',
-              paras: [t`Working capital is the money tied up in a firm's day-to-day operations: the short-term assets it needs to run, less the short-term liabilities that help finance them.`],
+              list: [
+                t`The money tied up in a firm's **day-to-day operations**.`,
+                t`Short-term assets it needs to run, **less** the short-term liabilities that help finance them.`,
+              ],
               formula: t`\text{Net working capital} = \text{Current assets} - \text{Current liabilities}`,
             },
             {
@@ -129,7 +139,11 @@ export default {
             },
             {
               heading: 'The trade-off',
-              paras: [t`Too little working capital risks running out of cash, missing sales through stock-outs and failing to pay suppliers, which is a liquidity risk. Too much ties up money that earns little and could be invested elsewhere, which is an opportunity cost. The firm chooses the level that balances **liquidity** against **profitability**.`],
+              list: [
+                t`**Too little:** risk of running out of cash, stock-outs and missed supplier payments (liquidity risk).`,
+                t`**Too much:** money tied up earning little that could be invested elsewhere (opportunity cost).`,
+                t`**Goal:** the level that balances **liquidity** against **profitability**.`,
+              ],
             },
           ],
           tips: [
@@ -153,51 +167,55 @@ export default {
           approach: t`For each method give **how it works (formula)**, **the decision rule**, **when it is useful** and **its drawbacks**. Cover payback, discounted payback, IRR (and MIRR), profitability index and the accounting rate of return.`,
           answer: [
             {
-              heading: 'Payback period',
-              paras: [t`The time it takes for undiscounted cash inflows to recover the initial investment. Accept the project if payback is within a cut-off period, e.g. 3 years.`],
+              heading: '1. Payback period',
+              paras: [t`Time taken for undiscounted cash inflows to recover the initial investment. Accept if payback is within a cut-off (e.g. 3 years).`],
               formula: t`\text{e.g. } \frac{\text{€}10{,}000}{\text{€}2{,}500 \text{ per year}} = 4 \text{ years}`,
               list: [
-                t`**Uses:** simple, quick and easy to communicate. A rough screen for liquidity and risk, useful when cash is tight or the future is very uncertain (e.g. politically risky countries, fast-changing technology).`,
-                t`**Drawbacks:** ignores the time value of money and **all cash flows after the cut-off**. The cut-off is arbitrary. It is biased against long-term projects such as R&D or infrastructure.`,
+                { label: 'Uses / advantages', items: [t`Simple and quick to calculate.`, t`Easy to explain to non-finance managers.`, t`Rough screen for liquidity: shows how fast cash comes back.`, t`Useful when cash is tight or the future is very uncertain (e.g. risky countries, fast-changing technology).`] },
+                { label: 'Drawbacks', items: [t`Ignores the time value of money.`, t`Ignores **all** cash flows after the cut-off.`, t`The cut-off period is arbitrary.`, t`Biased against long-term projects (R&D, infrastructure).`] },
               ],
             },
             {
-              heading: 'Discounted payback',
-              paras: [t`The same idea, but using discounted cash flows.`],
+              heading: '2. Discounted payback',
+              paras: [t`Same idea, but using **discounted** cash flows.`],
               list: [
-                t`**Uses:** fixes the time-value problem.`,
-                t`**Drawbacks:** still ignores cash flows after the cut-off, and the cut-off is still arbitrary.`,
+                { label: 'Uses / advantages', items: [t`Fixes the time-value problem of simple payback.`, t`Still simple and liquidity-focused.`] },
+                { label: 'Drawbacks', items: [t`Still ignores cash flows after the cut-off.`, t`Cut-off is still arbitrary.`] },
               ],
             },
             {
-              heading: 'Internal rate of return (IRR)',
-              paras: [t`The discount rate that makes NPV equal to zero. Accept the project if IRR exceeds the cost of capital (the hurdle rate).`],
+              heading: '3. Internal rate of return (IRR)',
+              paras: [t`The discount rate that makes NPV = 0. Accept if IRR > cost of capital (hurdle rate).`],
               formula: t`0 = -C_0 + \sum_{t=1}^{n}\frac{C_t}{(1+\text{IRR})^t}`,
               list: [
-                t`**Uses:** uses all cash flows and the time value of money. Managers like a percentage they can compare with the cost of capital. It usually gives the same accept/reject decision as NPV for an independent, conventional project.`,
-                t`**Drawbacks:** if cash flows change sign more than once there can be **multiple IRRs** (or none). It can **rank mutually exclusive projects wrongly**, because it ignores scale (a 50% return on €1 versus 20% on €1m) and timing. It implicitly assumes cash flows are reinvested at the IRR. It cannot handle different discount rates in different years.`,
-                t`**Modified IRR (MIRR)** fixes the reinvestment problem by compounding inflows at the cost of capital.`,
+                { label: 'Uses / advantages', items: [t`Uses all cash flows and the time value of money.`, t`A percentage is intuitive to compare with the cost of capital.`, t`Same accept/reject decision as NPV for a single, conventional project.`] },
+                { label: 'Drawbacks', items: [t`**Multiple IRRs** (or none) if cash flows change sign more than once.`, t`Can **rank mutually exclusive projects wrongly**: ignores scale (50% on €1 vs 20% on €1m) and timing.`, t`Assumes cash flows are reinvested at the IRR.`, t`Cannot handle different discount rates in different years.`] },
+                { label: 'Fix', items: [t`**Modified IRR (MIRR)** reinvests inflows at the cost of capital instead.`] },
               ],
             },
             {
-              heading: 'Profitability index (PI)',
+              heading: '4. Profitability index (PI)',
               formula: t`PI = \frac{\text{PV of future cash flows}}{\text{Initial investment}} \qquad \text{accept if } PI > 1`,
               list: [
-                t`**Uses:** shows value created per euro invested, so it is the right tool under **capital rationing**: rank projects by PI and choose the highest until the budget runs out.`,
-                t`**Drawbacks:** like IRR, it can mis-rank mutually exclusive projects of different sizes. It breaks down when the budget limit applies over several periods.`,
+                { label: 'Uses / advantages', items: [t`Shows value created per euro invested.`, t`Best tool under **capital rationing**: rank projects by PI and pick the highest until the budget runs out.`, t`Uses the time value of money.`] },
+                { label: 'Drawbacks', items: [t`Can mis-rank mutually exclusive projects of different sizes.`, t`Breaks down when the budget limit applies over several periods.`] },
               ],
             },
             {
-              heading: 'Accounting (book) rate of return, ARR',
+              heading: '5. Accounting (book) rate of return, ARR',
               formula: t`ARR = \frac{\text{Average accounting profit}}{\text{Average investment}}\times 100`,
               list: [
-                t`**Uses:** uses familiar accounting figures and connects with how managers' and divisions' performance is reported.`,
-                t`**Drawbacks:** based on **accounting profit, not cash flow**, so it depends on depreciation choices. It ignores the time value of money, and the target return is arbitrary.`,
+                { label: 'Uses / advantages', items: [t`Uses familiar accounting figures.`, t`Links to how managers' and divisions' performance is reported.`] },
+                { label: 'Drawbacks', items: [t`Based on **accounting profit, not cash flow**.`, t`Depends on depreciation choices.`, t`Ignores the time value of money.`, t`Target return is arbitrary.`] },
               ],
             },
             {
               heading: 'Conclusion',
-              paras: [t`Surveys (e.g. Graham & Harvey) show managers use IRR and payback almost as often as NPV, often alongside it. NPV remains the theoretically correct rule because it measures the euro value added to shareholders. The other methods are best used as supporting checks.`],
+              list: [
+                t`Surveys (e.g. Graham & Harvey) show managers use IRR and payback almost as often as NPV, usually alongside it.`,
+                t`NPV remains the theoretically correct rule: it measures the euro value added for shareholders.`,
+                t`The other methods are best used as supporting checks.`,
+              ],
             },
           ],
           tips: ['The question asks for uses and drawbacks of each method. A two-column structure for each method (uses / drawbacks) makes this easy to mark.'],
@@ -214,7 +232,12 @@ export default {
             {
               heading: 'What the statement means',
               formula: t`NPV = -C_0 + \sum_{t=1}^{n}\frac{C_t}{(1+r)^t}`,
-              paras: [t`NPV is mechanically correct, but the inputs ($C_0$, the forecast cash flows $C_t$, the discount rate $r$ and the project life $n$) are estimates about an uncertain future. If they are biased or wrong, a project with a positive NPV on paper can destroy value, and a good project can be rejected.`],
+              list: [
+                t`The NPV formula is mechanically correct ("garbage in, garbage out").`,
+                t`But its inputs are **estimates** about an uncertain future: $C_0$, the cash flows $C_t$, the discount rate $r$ and the life $n$.`,
+                t`If they are biased or wrong, a "positive-NPV" project can destroy value.`,
+                t`And a genuinely good project can be rejected.`,
+              ],
             },
             {
               heading: 'How the cash flow inputs can be wrong',
@@ -267,24 +290,26 @@ export default {
             {
               heading: 'Equity (shares)',
               list: [
-                t`**Pros:** higher expected long-run returns (an equity risk premium). Unlimited upside through capital gains and growing dividends. Ownership and voting rights. A partial hedge against inflation over the long run, because firms can raise prices. Usually very liquid if listed.`,
-                t`**Cons:** volatile prices and a risk of large losses. Dividends are discretionary, not contractual. Shareholders are **residual claimants**, paid last in liquidation, and could lose everything.`,
+                { label: 'Pros', items: [t`Higher expected long-run returns (the equity risk premium).`, t`Unlimited upside: capital gains and growing dividends.`, t`Ownership and voting rights.`, t`Partial long-run hedge against inflation (firms can raise prices).`, t`Listed shares are very liquid.`] },
+                { label: 'Cons', items: [t`Volatile prices; risk of large losses.`, t`Dividends are discretionary, not guaranteed.`, t`Shareholders are **residual claimants**: paid last in liquidation.`, t`Could lose the entire investment.`] },
               ],
             },
             {
               heading: 'Bonds',
               list: [
-                t`**Pros:** contractual coupons and repayment of principal give predictable income. Bondholders rank **ahead of shareholders** in bankruptcy. Lower volatility. Government bonds are close to risk-free in nominal terms.`,
-                t`**Cons:** returns are capped at the coupon plus principal. **Interest-rate risk**: bond prices fall when yields rise, and longer maturities fall more. **Inflation risk**: fixed payments lose real value. **Credit / default risk** with corporate bonds. Some bonds are less liquid.`,
+                { label: 'Pros', items: [t`Contractual coupons and principal: predictable income.`, t`Bondholders rank **ahead of shareholders** in bankruptcy.`, t`Lower volatility than shares.`, t`Government bonds are close to risk-free in nominal terms.`] },
+                { label: 'Cons', items: [t`Returns are capped at coupons plus principal.`, t`**Interest-rate risk:** prices fall when yields rise (more so for long maturities).`, t`**Inflation risk:** fixed payments lose real value.`, t`**Credit / default risk** with corporate bonds.`, t`Some bonds are less liquid.`] },
               ],
             },
             {
               heading: 'Why hold a mixture: diversification',
               list: [
-                t`Stock and bond returns are **not perfectly correlated** (historically often low or negative), so combining them lowers portfolio risk by more than it lowers expected return. This is Markowitz portfolio theory.`,
-                t`Bonds provide steady income and cushion falls in equity markets. Equities provide long-term growth.`,
-                t`The mix matches the investor's **risk tolerance, time horizon and income needs**. A young investor may hold mostly equity; someone near retirement shifts towards bonds (life-cycle / target-date funds, the traditional "60/40" portfolio).`,
-                t`Rebalancing a mixed portfolio enforces buying low and selling high.`,
+                t`Stock and bond returns are **not perfectly correlated** (historically often low or negative).`,
+                t`So combining them lowers portfolio risk by more than it lowers expected return (Markowitz portfolio theory).`,
+                t`Bonds give steady income and cushion equity falls; equities give long-term growth.`,
+                t`The mix matches the investor's **risk tolerance, time horizon and income needs**.`,
+                t`Young investors hold mostly equity; near retirement, shift towards bonds (life-cycle funds, the classic "60/40").`,
+                t`Rebalancing a mixed portfolio forces "buy low, sell high".`,
               ],
             },
           ],
@@ -300,36 +325,59 @@ export default {
           approach: t`Go in order: MM without taxes, MM with taxes, trade-off theory, pecking order, and agency / free cash flow. Include the key equations. Then apply them to different firm types.`,
           answer: [
             {
-              heading: 'Modigliani & Miller (1958): no taxes',
+              heading: '1. Modigliani & Miller (1958): no taxes',
               formula: t`V_L = V_U, \qquad r_E = r_A + \frac{D}{E}\,(r_A - r_D)`,
-              paras: [t`In perfect markets (no taxes, no bankruptcy costs, symmetric information), capital structure is **irrelevant**: firm value depends only on its assets' cash flows. More debt raises the cost of equity exactly enough to leave the WACC unchanged (Proposition II). This is the benchmark the other theories relax.`],
+              list: [
+                t`Assumes perfect markets: no taxes, no bankruptcy costs, symmetric information.`,
+                t`Capital structure is **irrelevant**: value depends only on the assets' cash flows.`,
+                t`More debt raises the cost of equity exactly enough to keep WACC unchanged (Proposition II).`,
+                t`It is the benchmark the other theories relax.`,
+              ],
             },
             {
-              heading: 'MM with corporate taxes',
+              heading: '2. MM with corporate taxes',
               formula: t`V_L = V_U + T_c D`,
-              paras: [t`Interest is tax-deductible, so debt creates a **tax shield** worth $T_cD$ (for permanent debt). Taken literally, firms should be almost 100% debt-financed, which we do not observe.`],
+              list: [
+                t`Interest is tax-deductible, so debt creates a **tax shield** worth $T_cD$ (for permanent debt).`,
+                t`Firm value rises with debt.`,
+                t`Taken literally, firms should be almost 100% debt, which we do not observe.`,
+              ],
             },
             {
-              heading: 'Static trade-off theory',
+              heading: '3. Static trade-off theory',
               formula: t`V_L = V_U + PV(\text{tax shield}) - PV(\text{costs of financial distress})`,
-              paras: [t`Firms balance the tax benefit of debt against the expected costs of financial distress: direct bankruptcy costs, plus indirect costs such as lost customers, underinvestment and asset substitution. The optimal debt ratio is where the marginal benefit equals the marginal cost.`],
+              list: [
+                t`**Benefit of debt:** the tax shield.`,
+                t`**Cost of debt:** financial distress: direct bankruptcy costs, plus indirect costs (lost customers, underinvestment, asset substitution).`,
+                t`**Optimal debt ratio:** where the marginal benefit equals the marginal cost.`,
+              ],
             },
             {
-              heading: 'Pecking order theory (Myers & Majluf, 1984)',
-              paras: [t`Managers know more than investors (asymmetric information). Issuing equity signals that the shares may be overvalued, so the price falls. Firms therefore prefer **internal funds, then debt, then equity as a last resort**. There is no target ratio; leverage reflects past profitability. This explains why very profitable firms often have **low** debt.`],
+              heading: '4. Pecking order theory (Myers & Majluf, 1984)',
+              list: [
+                t`Managers know more than investors (asymmetric information).`,
+                t`Issuing equity signals the shares may be overvalued, so the price falls.`,
+                t`So firms prefer: **internal funds → debt → equity** (last resort).`,
+                t`No target ratio: leverage reflects past profitability.`,
+                t`Explains why very profitable firms often have **low** debt.`,
+              ],
             },
             {
-              heading: 'Agency theory / free cash flow (Jensen, 1986)',
-              paras: [t`Debt disciplines managers by committing cash to interest payments, reducing waste of free cash flow. But too much debt creates conflicts with lenders, such as risk-shifting and debt overhang. Market-timing theory adds that firms issue equity when share prices are high.`],
+              heading: '5. Agency theory / free cash flow (Jensen, 1986)',
+              list: [
+                t`Debt disciplines managers: interest payments use up free cash flow they might waste.`,
+                t`But too much debt creates conflicts with lenders (risk-shifting, debt overhang).`,
+                t`**Market timing** adds that firms issue equity when share prices are high.`,
+              ],
             },
             {
               heading: 'How the optimal structure varies across firms',
               list: [
-                t`**Stable, profitable firms with tangible assets** (utilities, real estate, infrastructure) can carry high debt: steady cash flows, valuable tax shields and good collateral mean low distress costs.`,
-                t`**High-growth tech and biotech firms** use little debt: volatile cash flows, intangible assets that lose value in distress, little taxable profit to shield, and valuable growth options that debt overhang could kill.`,
-                t`**Mature cash-rich firms** (e.g. Apple) may borrow to fund buybacks or to discipline management, even with large cash piles.`,
-                t`**Small and private firms** depend on bank debt and internal funds, because issuing equity is costly for them.`,
-                t`**Country, tax and industry norms** also matter. A higher corporate tax rate makes debt more attractive.`,
+                { label: 'High debt suits: stable, profitable firms with tangible assets', items: [t`Examples: utilities, real estate, infrastructure.`, t`Steady cash flows, valuable tax shields, good collateral, low distress costs.`] },
+                { label: 'Low debt suits: high-growth tech and biotech', items: [t`Volatile cash flows.`, t`Intangible assets lose value in distress.`, t`Little taxable profit to shield.`, t`Debt overhang could kill valuable growth options.`] },
+                { label: 'Mature, cash-rich firms (e.g. Apple)', items: [t`May borrow anyway to fund buybacks or discipline management.`] },
+                { label: 'Small and private firms', items: [t`Rely on bank debt and internal funds, because issuing equity is costly.`] },
+                { label: 'Other factors', items: [t`Country tax rates: higher corporate tax makes debt more attractive.`, t`Industry norms.`] },
               ],
             },
           ],
@@ -372,14 +420,19 @@ export default {
             {
               heading: 'Alternative: cost of equity from the dividend growth model',
               formula: t`r_E = \frac{D_1}{P_0} + g = \frac{6}{68} + 0.02 = 8.82\% + 2\% = 10.82\% \;\Rightarrow\; WACC = 0.4277(10.82\%) + 0.5723(3.09\%) = 6.40\%`,
-              paras: [
-                t`€6 is the dividend the firm is **expected** to pay, so it is already $D_1$: do not multiply it by $(1+g)$.`,
-                t`The two methods disagree (15.05% vs 10.82%). A good answer says so, picks one with a reason (CAPM uses the market's pricing of systematic risk; the DGM depends heavily on the assumed growth rate), or **averages** them: $r_E = 12.94\%$, giving $WACC \approx 7.30\%$.`,
+              list: [
+                t`€6 is the dividend the firm is **expected** to pay, so it is already $D_1$: do not multiply by $(1+g)$.`,
+                t`The two methods disagree: 15.05% (CAPM) vs 10.82% (DGM).`,
+                { label: 'What to do in the exam', items: [t`Say that they disagree.`, t`Pick one with a reason: CAPM prices systematic risk; the DGM depends heavily on the growth assumption.`, t`Or **average** them: $r_E = 12.94\%$, giving $WACC \approx 7.30\%$.`] },
               ],
             },
             {
               heading: 'Sense check',
-              paras: [t`Pricing a 10-year, 3% annual-coupon bond at a 4.12% yield gives a price of about 91.0, which matches the quoted price. So 4.12% is the right market cost of debt, and the bond trades below par because its coupon is below the market yield.`],
+              list: [
+                t`A 10-year, 3% annual-coupon bond priced at a 4.12% yield is worth about **91.0**, matching the quoted price.`,
+                t`So 4.12% is the right market cost of debt.`,
+                t`It trades below par because its coupon (3%) is below the market yield.`,
+              ],
             },
           ],
           tips: [
@@ -399,7 +452,11 @@ export default {
           answer: [
             {
               heading: 'What WACC represents',
-              paras: [t`WACC is the blended, after-tax return the firm must earn on its existing assets to satisfy all its investors, both lenders and shareholders, weighted by the market value of each source of finance. It is the **opportunity cost of capital** for a project with the same risk as the firm as a whole.`],
+              list: [
+                t`The blended, **after-tax** return the firm must earn to satisfy all its investors (lenders and shareholders).`,
+                t`Weighted by the **market value** of each source of finance.`,
+                t`It is the **opportunity cost of capital** for a project with the same risk as the firm as a whole.`,
+              ],
             },
             {
               heading: 'Why firms calculate it',
@@ -461,7 +518,11 @@ export default {
             },
             {
               heading: 'Conclusion',
-              paras: [t`Both make the future harder to predict and shift wealth arbitrarily between groups. That is why central banks such as the ECB target low, stable inflation of around 2%.`],
+              list: [
+                t`Both make the future harder to predict.`,
+                t`Both shift wealth arbitrarily between groups.`,
+                t`That is why central banks like the ECB target low, stable inflation of about 2%.`,
+              ],
             },
           ],
         },
@@ -476,7 +537,7 @@ export default {
           answer: [
             {
               heading: 'Dividends as signals',
-              paras: [t`Managers know more about future cash flows than investors. Because a dividend is costly to keep paying, a change in dividend is a credible **signal** of what managers expect.`],
+              paras: [t`Managers know more about future cash flows than investors. A dividend is costly to keep paying, so changing it is a credible **signal** of what managers expect.`],
               list: [
                 t`**Initiating dividends** signals confidence that cash flows are permanent and sufficient. Share prices usually react positively. It also marks a shift from growth phase to maturity.`,
                 t`**Cutting or stopping dividends** signals that management expects lower future earnings or cash problems, and prices often fall sharply. Example: many banks and oil majors cut in 2020, and their prices dropped.`,
@@ -493,7 +554,11 @@ export default {
             },
             {
               heading: 'Counterpoint',
-              paras: [t`In MM's perfect-market world, dividend policy is irrelevant: investors can create "homemade dividends" by selling shares. Cutting a dividend to fund positive-NPV projects can be value-creating if it is explained clearly to the market. In practice, communication is crucial.`],
+              list: [
+                t`In MM's perfect-market world, dividend policy is **irrelevant**: investors can create "homemade dividends" by selling shares.`,
+                t`Cutting a dividend to fund positive-NPV projects can **create** value.`,
+                t`In practice, clear communication with the market is crucial.`,
+              ],
             },
           ],
         },
@@ -521,7 +586,11 @@ export default {
           answer: [
             {
               heading: 'Breakdown',
-              paras: [t`Dividends in years 1–3 contribute about €10.75 of present value. The terminal value contributes about €43.59, roughly 80% of the price. That is why the long-run growth assumption matters so much.`],
+              list: [
+                t`Dividends in years 1–3: about **€10.75** of present value.`,
+                t`Terminal value: about **€43.59**, roughly 80% of the price.`,
+                t`So the long-run growth assumption matters most.`,
+              ],
             },
           ],
           tips: [

@@ -9,7 +9,15 @@ import { topicById } from '../content/topics.js';
 
 const label = (text, hint = '') => `<h4 class="block__label">${text}${hint ? `<span class="block__hint">${hint}</span>` : ''}</h4>`;
 const paras = (v) => [].concat(v ?? []).map((p) => `<p>${rich(p)}</p>`).join('');
-const list = (items) => `<ul class="list">${items.map((i) => `<li>${rich(i)}</li>`).join('')}</ul>`;
+/** Bullet list. An item may be a string, or { label, items } for a labelled group of sub-bullets. */
+const list = (items) =>
+  `<ul class="list">${items
+    .map((i) =>
+      typeof i === 'string'
+        ? `<li>${rich(i)}</li>`
+        : `<li class="list__group"><span class="list__label">${rich(i.label)}</span><ul class="list list--sub">${i.items.map((x) => `<li>${rich(x)}</li>`).join('')}</ul></li>`
+    )
+    .join('')}</ul>`;
 
 function table(tb) {
   const head = tb.columns.map((c) => `<th scope="col">${rich(c)}</th>`).join('');

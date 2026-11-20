@@ -122,7 +122,7 @@ for (const paper of PAPERS) {
       (part.tips ?? []).forEach((x, i) => checkRich(x, `${w}.tips[${i}]`));
       (part.answer ?? []).forEach((b, i) => {
         [].concat(b.paras ?? []).forEach((x) => checkRich(x, `${w}.answer[${i}].paras`));
-        (b.list ?? []).forEach((x) => checkRich(x, `${w}.answer[${i}].list`));
+        (b.list ?? []).forEach((x) => (typeof x === 'string' ? checkRich(x, `${w}.answer[${i}].list`) : [x.label, ...x.items].forEach((y) => checkRich(y, `${w}.answer[${i}].list`))));
         if (b.formula) render(b.formula, true, `${w}.answer[${i}].formula`);
         b.table?.rows.flat().forEach((x) => checkRich(x, `${w}.answer[${i}].table`));
       });

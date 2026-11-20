@@ -462,3 +462,15 @@ kbd {
   .qcard .fcard__toggle { margin: var(--s-4) var(--s-4) var(--s-5); width: calc(100% - 2 * var(--s-4)); }
   .qcard .fcard__content { margin: 0 var(--s-4) var(--s-5); padding: 0 var(--s-4) var(--s-5); }
 }
+
+/* Grouped bullets in model answers (e.g. Uses / Drawbacks) */
+.list__group::before { display: none; }
+.list__group { padding-left: 0 !important; }
+.list__label { display: block; font-weight: 600; color: var(--ink-1); margin-bottom: 6px; }
+.list--sub { margin-left: 2px; }
+.list--sub li + li { margin-top: 6px; }
+.list li + .list__group, .list__group + li, .list__group + .list__group { margin-top: var(--s-4); }
+
+/* Round bullet dots */
+.list li::before { left: 3px; top: 0.66em; width: 5px; height: 5px; border-radius: 50%; background: var(--ink-3); }
+.list--sub li::before { background: var(--accent); opacity: 0.8; }

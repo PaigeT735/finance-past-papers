@@ -79,7 +79,7 @@ export function renderQuestionPart(part, question, section) {
     </div>
     <div class="fcard__formula qcard__prompt">${rich(part.prompt)}</div>
     <button class="fcard__toggle" type="button" aria-expanded="false" aria-controls="${part.id}-body">
-      <span class="fcard__toggle-text"><span class="fcard__toggle-show">Show model answer</span><span class="fcard__toggle-hide">Hide model answer</span></span>
+      <span class="fcard__toggle-text"><span class="fcard__toggle-show">Show answer</span><span class="fcard__toggle-hide">Hide answer</span></span>
       <span class="fcard__toggle-hint">${hints}</span>${icons.chevron}
     </button>
     <div class="fcard__body" id="${part.id}-body">

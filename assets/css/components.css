@@ -424,3 +424,41 @@ kbd {
 .mini-table th, .mini-table td { padding: var(--s-3) var(--s-4); text-align: left; border-bottom: 1px solid var(--line-1); vertical-align: top; }
 .mini-table thead th { background: var(--thead-bg); color: var(--ink-2); font-weight: 600; }
 .mini-table tbody tr:last-child td { border-bottom: 0; }
+
+/* ---------- Answer dropdown (question cards) ---------- */
+.qcard .fcard__toggle {
+  width: calc(100% - 2 * var(--s-6));
+  margin: var(--s-5) var(--s-6) var(--s-6);
+  padding: 13px var(--s-5);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: rgba(var(--glass-rgb), calc(0.55 * var(--glass-k)));
+  box-shadow: 0 1px 2px rgba(var(--shadow-rgb), calc(0.05 * var(--shadow-k)));
+}
+.qcard .fcard__toggle:hover { background: rgba(var(--glass-rgb), calc(0.9 * var(--glass-k))); border-color: var(--line-3); }
+.qcard .fcard__toggle-text { font-size: 0.95rem; }
+.qcard .fcard__chev {
+  width: 26px; height: 26px; padding: 5px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  color: var(--accent);
+}
+.qcard[data-open='true'] .fcard__toggle {
+  margin-bottom: 0;
+  border-radius: var(--r-sm) var(--r-sm) 0 0;
+  border-bottom-color: var(--line-1);
+  background: rgba(var(--glass-rgb), calc(0.75 * var(--glass-k)));
+}
+.qcard .fcard__content {
+  margin: 0 var(--s-6) var(--s-6);
+  padding: 0 var(--s-6) var(--s-6);
+  border: 1px solid var(--line-2);
+  border-top: 0;
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+  background: rgba(var(--glass-rgb), calc(0.3 * var(--glass-k)));
+}
+.qcard .fcard__body { transition-duration: 0.36s; }
+@media (max-width: 560px) {
+  .qcard .fcard__toggle { margin: var(--s-4) var(--s-4) var(--s-5); width: calc(100% - 2 * var(--s-4)); }
+  .qcard .fcard__content { margin: 0 var(--s-4) var(--s-5); padding: 0 var(--s-4) var(--s-5); }
+}

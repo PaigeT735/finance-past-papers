@@ -61,7 +61,7 @@ export default {
       <section class="home-section" aria-labelledby="papers-title">
         <div class="home-section__head">
           <div><div class="eyebrow">Papers</div><h2 class="home-section__title" id="papers-title">Past papers</h2></div>
-          <p class="home-section__intro">Newest first. Scroll straight through from one paper into the next, and on into the formula sheet.</p>
+          <p class="home-section__intro">Newest first. Each paper opens in its own tab, one question at a time.</p>
         </div>
         <div class="index panel">${papers}</div>
       </section>
@@ -77,7 +77,7 @@ export default {
       <section class="home-section" aria-labelledby="legend-title">
         <div class="home-section__head">
           <div><div class="eyebrow">How to use it</div><h2 class="home-section__title" id="legend-title">Inside each answer</h2></div>
-          <p class="home-section__intro">Try the question yourself first, then press “Show model answer” to check your work.</p>
+          <p class="home-section__intro">Each paper has its own tab. Work through it one question at a time, try each part yourself, then open the answer dropdown to check.</p>
         </div>
         <div class="legend legend--4">${legend}</div>
       </section>

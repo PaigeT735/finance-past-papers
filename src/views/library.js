@@ -1,523 +1,121 @@
 /**
- * Revision views
- *   #/papers                     index of every paper, question and topic
- *   #/papers/:section            continuous page, scrolled to a paper (or the formula sheet)
- *   #/papers/:section/:anchorId  ... scrolled to a question part or formula card
+ * The two kinds of page, each opened from a tab in the top bar:
+ *   #/papers/formula-sheet            the formula sheet (also the home page)
+ *   #/papers/:paperId                 a past paper: its questions, answers in dropdowns
+ *   #/papers/:id/:anchorId            ... scrolled to (and opening) one card or question part
  */
-import { SECTIONS, PAPERS, FORMULA_SHEET, sectionById, cardCode, partsByTopic } from '../content/index.js';
-import { TOPICS } from '../content/topics.js';
+import { SECTIONS, sectionById } from '../content/index.js';
 import { renderCard, setCardOpen } from '../components/card.js';
 import { renderQuestionPart } from '../components/question.js';
 import { rich, escapeHtml } from '../lib/rich.js';
-import { icons } from '../lib/icons.js';
-import { moveInk } from '../components/sidebar.js';
 
-/** Short label for the in-page nav: "Marginal rate of substitution (MRS)" -> "MRS". */
-function navLabel(card) {
-  if (card.nav) return card.nav;
-  const paren = card.title.match(/\(([^)]+)\)\s*$/);
-  if (paren && paren[1].length <= 5 && paren[1] === paren[1].toUpperCase()) return paren[1];
-  return card.title.split(/:\s|\s\(|,\s/)[0];
-}
-
-const partCount = (paper) => paper.questions.reduce((n, q) => n + q.parts.length, 0);
-const snippet = (str, n = 78) => {
-  const plain = String(str).replace(/\$[^$]*\$/g, '…').replace(/\*\*/g, '');
-  return plain.length > n ? plain.slice(0, n).trimEnd() + '…' : plain;
-};
-
-/** Topic grid, shared by the index page and the home page. */
-export function renderTopicGrid() {
-  const byTopic = partsByTopic();
-  return TOPICS.filter((tp) => byTopic.get(tp.id)?.length)
-    .map((tp) => {
-      const links = byTopic
-        .get(tp.id)
-        .map(({ part, section }) => `<li><a href="#/papers/${section.id}/${part.id}"><span>${escapeHtml(section.short)}</span><span>Q${escapeHtml(part.label)} · ${escapeHtml(snippet(part.prompt, 60))}</span></a></li>`)
-        .join('');
-      return `<section class="lib-block panel topic-block"><div class="lib-block__head"><span class="lib-block__title">${escapeHtml(tp.label)}</span></div><ul>${links}</ul></section>`;
-    })
-    .join('');
-}
-
-/* ---------- Index ---------- */
-function renderIndex() {
-  const papers = PAPERS.map((p) => {
-    const items = p.questions
-      .flatMap((q) => q.parts.map((part) => `<li><a href="#/papers/${p.id}/${part.id}"><span>${escapeHtml(part.label)}</span><span>${escapeHtml(snippet(part.prompt))} <em class="lib-marks">${part.marks}m</em></span></a></li>`))
-      .join('');
-    return `
-      <section class="lib-block panel" data-accent="${p.accent}">
-        <div class="lib-block__head"><span class="lib-block__num">Paper</span><a class="lib-block__title" href="#/papers/${p.id}">${escapeHtml(p.title)}</a></div>
-        <ul>${items}</ul>
-      </section>`;
-  }).join('');
-
-  const formulas = `
-      <section class="lib-block panel" data-accent="${FORMULA_SHEET.accent}">
-        <div class="lib-block__head"><span class="lib-block__num">Revision</span><a class="lib-block__title" href="#/papers/${FORMULA_SHEET.id}">${escapeHtml(FORMULA_SHEET.title)}</a></div>
-        <ul>${FORMULA_SHEET.cards.map((c, i) => `<li><a href="#/papers/${FORMULA_SHEET.id}/${c.id}"><span>${cardCode(FORMULA_SHEET, i)}</span><span>${escapeHtml(c.title)}</span></a></li>`).join('')}</ul>
-      </section>`;
-
+function renderFormulaSheet(section) {
   return `
-  <div class="page"><div class="page__inner">
-    <header class="lib-head">
-      <div class="eyebrow">Introduction to Finance</div>
-      <h1 class="lib-head__title">All papers &amp; topics</h1>
-      <p class="lib-head__lede">Every question on one page, plus the same questions grouped by topic, so you can see what comes up again and again.</p>
-    </header>
-    <div class="lib-grid">${papers}${formulas}</div>
-    <div class="subhead"><span class="eyebrow">By topic</span><h2>Questions grouped by topic</h2></div>
-    <div class="lib-grid">${renderTopicGrid()}</div>
-  </div></div>`;
+  <div class="page" data-accent="${section.accent}">
+    <div class="section-wrap">
+      <header class="section-hero">
+        <h1 class="section-hero__title">${escapeHtml(section.title)}</h1>
+        <p class="section-hero__lede">${rich(section.summary)}</p>
+      </header>
+      <div class="cards">${section.cards.map((c, i) => renderCard(c, section, i)).join('')}</div>
+    </div>
+  </div>`;
 }
 
-/* ---------- Continuous page: every paper, then the formula sheet ---------- */
-function toolbar(filters) {
-  return `
-    <div class="toolbar">
-      <div class="toolbar__left">${filters}<span class="toolbar__count" data-count></span></div>
-      <div class="toolbar__right">
-        <button class="btn" type="button" data-action="expand-all">${icons.expand}Expand all</button>
-        <button class="btn" type="button" data-action="collapse-all">${icons.collapse}Collapse all</button>
-      </div>
-    </div>`;
-}
-
-function paperBlock(paper) {
-  const meta = `
-    <aside class="method panel paper-meta" aria-label="Exam details">
-      <div class="eyebrow">Exam details</div>
-      <dl class="meta-list">${paper.meta.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join('')}</dl>
-      ${paper.timing ? `<p class="paper-meta__timing">${rich(paper.timing)}</p>` : ''}
-    </aside>`;
-
-  const filters = `<div class="segmented" role="group" aria-label="Filter ${escapeHtml(paper.title)} questions">
-      <button type="button" data-filter="all" aria-pressed="true">All</button>
-      <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
-      <button type="button" data-filter="calc" aria-pressed="false">Calculations</button>
-    </div>`;
-
-  const questions = paper.questions.map((q) => {
-    const marks = q.parts.reduce((n, p) => n + p.marks, 0);
-    return `
-      <div class="qgroup">
+function renderPaper(paper) {
+  const questions = paper.questions
+    .map((q) => {
+      const marks = q.parts.reduce((m, p) => m + p.marks, 0);
+      return `
+      <section class="qgroup" id="${paper.id}-q${q.number}">
         <div class="qgroup__head">
-          <span class="qgroup__num">Question ${q.number}</span>
+          <h2 class="qgroup__num">Question ${q.number}</h2>
           <span class="qgroup__meta">${q.compulsory ? 'Compulsory' : 'Optional'} · ${marks} marks</span>
         </div>
         <div class="cards">${q.parts.map((part) => renderQuestionPart(part, q, paper)).join('')}</div>
-      </div>`;
-  }).join('');
-
-  return `
-  <section class="flow-section" id="${paper.id}" data-section="${paper.id}" data-accent="${paper.accent}" aria-labelledby="${paper.id}-heading">
-    <header class="section-hero">
-      <div class="section-hero__eyebrow"><span class="eyebrow">Past paper</span><span class="eyebrow">${paper.questions.length} questions · ${partCount(paper)} parts</span></div>
-      <h2 class="section-hero__title" id="${paper.id}-heading">${escapeHtml(paper.title)}</h2>
-      <p class="section-hero__lede">${rich(paper.summary)}</p>
-    </header>
-    ${meta}
-    ${toolbar(filters)}
-    ${questions}
-    <div class="empty-filter" data-empty hidden>No questions match this filter.</div>
-  </section>`;
-}
-
-function formulaBlock(section) {
-  return `
-  <section class="flow-section" id="${section.id}" data-section="${section.id}" data-accent="${section.accent}" aria-labelledby="${section.id}-heading">
-    <header class="section-hero">
-      <div class="section-hero__eyebrow"><span class="eyebrow">Revision</span><span class="eyebrow">${section.cards.length} formulas</span></div>
-      <h2 class="section-hero__title" id="${section.id}-heading">${escapeHtml(section.title)}</h2>
-      <p class="section-hero__lede">${rich(section.summary)}</p>
-    </header>
-    ${toolbar('')}
-    <div class="cards">${section.cards.map((c, idx) => renderCard(c, section, idx)).join('')}</div>
-  </section>`;
-}
-
-function chips(section) {
-  if (section.kind === 'paper') {
-    return section.questions
-      .flatMap((q) => q.parts.map((part) => `<a class="tab" href="#/papers/${section.id}/${part.id}" data-target="${part.id}" title="Question ${escapeHtml(part.label)}">Q${escapeHtml(part.label)}</a>`))
-      .join('');
-  }
-  return section.cards.map((c, idx) => `<a class="tab" href="#/papers/${section.id}/${c.id}" data-target="${c.id}" title="${escapeHtml(c.title)}"><span class="tab__code">${cardCode(section, idx)}</span>${escapeHtml(navLabel(c))}</a>`).join('');
-}
-
-function renderFlow(sections = SECTIONS) {
-  const groups = sections.map((section) => `
-    <div class="tabs__track" data-group="${section.id}" data-accent="${section.accent}" hidden>
-      ${chips(section)}
-      <span class="ink" aria-hidden="true"></span>
-    </div>`).join('');
-
-  return `
-  <nav class="subnav" aria-label="Questions in this paper">
-    <div class="subnav__inner">
-      <span class="subnav__label" data-subnav-label></span>
-      <div class="tabs" data-subnav>${groups}</div>
-    </div>
-  </nav>
-  <div class="page">
-    <div class="section-wrap flow">${sections.map((s) => (s.kind === 'paper' ? paperBlock(s) : formulaBlock(s))).join('')}</div>
-  </div>`;
-}
-
-
-/* ---------- Paper page: one question at a time, answers in dropdowns ---------- */
-function renderPaper(paper) {
-  const tabs = paper.questions
-    .map((q) => `<a class="tab" href="#/papers/${paper.id}/q${q.number}" data-q="${q.number}">Question ${q.number}${q.compulsory ? '<span class="tab__code tab__code--after">compulsory</span>' : ''}</a>`)
+      </section>`;
+    })
     .join('');
 
-  const meta = `
-    <details class="method panel paper-meta">
-      <summary><span class="eyebrow">Exam details</span><span class="paper-meta__rubric">${escapeHtml(paper.meta.find(([k]) => k === 'Rubric')?.[1] ?? '')}</span>${icons.chevron}</summary>
-      <dl class="meta-list">${paper.meta.map(([k, v]) => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd>`).join('')}</dl>
-      ${paper.timing ? `<p class="paper-meta__timing">${rich(paper.timing)}</p>` : ''}
-    </details>`;
-
-  const n = paper.questions.length;
-  const questions = paper.questions.map((q, i) => {
-    const marks = q.parts.reduce((m, p) => m + p.marks, 0);
-    const prev = paper.questions[i - 1];
-    const next = paper.questions[i + 1];
-    return `
-      <section class="qgroup" id="${paper.id}-q${q.number}" data-q="${q.number}" aria-labelledby="${paper.id}-q${q.number}-title">
-        <div class="qgroup__head">
-          <h2 class="qgroup__num" id="${paper.id}-q${q.number}-title">Question ${q.number}</h2>
-          <span class="qgroup__meta">${q.compulsory ? 'Compulsory' : 'Optional'} · ${marks} marks · ${q.parts.length} part${q.parts.length > 1 ? 's' : ''}</span>
-          <span class="qgroup__count">${i + 1} of ${n}</span>
-        </div>
-        <div class="cards">${q.parts.map((part) => renderQuestionPart(part, q, paper)).join('')}</div>
-        <nav class="pager qpager" aria-label="Questions">
-          ${prev ? `<a class="prev" href="#/papers/${paper.id}/q${prev.number}"><span class="eyebrow">← Previous</span><span class="pager__title">Question ${prev.number}</span></a>` : '<span></span>'}
-          ${next ? `<a class="next" href="#/papers/${paper.id}/q${next.number}"><span class="eyebrow">Next →</span><span class="pager__title">Question ${next.number}</span></a>` : `<a class="next" href="#/papers"><span class="eyebrow">Finished →</span><span class="pager__title">All papers</span></a>`}
-        </nav>
-      </section>`;
-  }).join('');
-
   return `
-  <nav class="subnav" aria-label="Questions in this paper" data-accent="${paper.accent}">
-    <div class="subnav__inner">
-      <span class="subnav__label">${escapeHtml(paper.short)}</span>
-      <div class="tabs" data-qtabs><div class="tabs__track">${tabs}<span class="ink" aria-hidden="true"></span></div></div>
-    </div>
-  </nav>
   <div class="page" data-accent="${paper.accent}">
     <div class="section-wrap">
       <header class="section-hero">
-        <div class="section-hero__eyebrow"><span class="eyebrow">Past paper</span><span class="eyebrow">${n} questions · ${partCount(paper)} parts</span></div>
         <h1 class="section-hero__title">${escapeHtml(paper.title)}</h1>
         <p class="section-hero__lede">${rich(paper.summary)}</p>
       </header>
-      ${meta}
-      <div class="toolbar">
-        <div class="toolbar__left">
-          <div class="segmented" role="group" aria-label="View">
-            <button type="button" data-view="one" aria-pressed="true">One question at a time</button>
-            <button type="button" data-view="all" aria-pressed="false">All questions</button>
-          </div>
-        </div>
-        <div class="toolbar__right">
-          <button class="btn" type="button" data-action="expand-all">${icons.expand}Show all answers</button>
-          <button class="btn" type="button" data-action="collapse-all">${icons.collapse}Hide all answers</button>
-        </div>
-      </div>
-      <div class="questions" data-view="one">${questions}</div>
+      ${questions}
     </div>
   </div>`;
 }
 
-function mountPaper(root, params, ctx) {
-  const paper = params.section;
-  const list = root.querySelector('.questions');
-  const strip = root.querySelector('[data-qtabs]');
-  const tabs = [...strip.querySelectorAll('[data-q]')];
-  let current = null;
-
-  const show = (qNumber, { scroll = true, openPart = null, smooth = true } = {}) => {
-    const q = paper.questions.find((x) => String(x.number) === String(qNumber)) ?? paper.questions[0];
-    current = q.number;
-    root.querySelectorAll('.qgroup').forEach((g) => {
-      g.hidden = list.dataset.view === 'one' && g.dataset.q !== String(q.number);
-    });
-    const active = tabs.find((t) => t.dataset.q === String(q.number));
-    tabs.forEach((t) => t.setAttribute('aria-current', String(t === active)));
-    moveInk(strip, active);
-    let target = root.querySelector(`#${CSS.escape(`${paper.id}-q${q.number}`)}`);
-    if (openPart) {
-      const card = root.querySelector(`#${CSS.escape(openPart)}`);
-      if (card) { setCardOpen(card, true); target = card; card.classList.remove('is-flash'); void card.offsetWidth; card.classList.add('is-flash'); }
-    }
-    if (scroll) {
-      requestAnimationFrame(() => target.scrollIntoView({ behavior: openPart && smooth ? 'smooth' : 'auto', block: 'start' }));
-      if (!smooth) {
-        // first load: fonts and maths can still shift the layout, so settle once more
-        const settle = () => { if (Math.abs(target.getBoundingClientRect().top - (parseFloat(getComputedStyle(target).scrollMarginTop) || 0)) > 8) target.scrollIntoView({ block: 'start' }); };
-        document.fonts?.ready.then(() => setTimeout(settle, 60));
-        setTimeout(settle, 450);
-      }
-    }
-  };
-  root.__show = show;
-
-  root.addEventListener('click', (e) => {
-    const toggle = e.target.closest('.fcard__toggle');
-    if (toggle) {
-      const card = toggle.closest('.fcard');
-      setCardOpen(card, card.dataset.open !== 'true');
-      return;
-    }
-    const view = e.target.closest('[data-view]')?.dataset.view;
-    if (view && e.target.closest('button')) {
-      list.dataset.view = view;
-      root.querySelectorAll('button[data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
-      show(current, { scroll: false });
-      return;
-    }
-    const action = e.target.closest('[data-action]')?.dataset.action;
-    if (action === 'expand-all' || action === 'collapse-all') {
-      root.querySelectorAll('.qgroup:not([hidden]) .fcard').forEach((c) => setCardOpen(c, action === 'expand-all'));
-      return;
-    }
-    const copy = e.target.closest('[data-copy-link]');
-    if (copy) {
-      const url = `${location.origin}${location.pathname}${copy.dataset.copyLink}`;
-      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(() => ctx.toast('Link copied'), () => ctx.toast(url));
-      else ctx.toast(url);
-    }
-  });
-
-  const onResize = () => moveInk(strip, tabs.find((t) => t.getAttribute('aria-current') === 'true'), { scroll: false });
-  window.addEventListener('resize', onResize);
-  ctx.onLeave(() => window.removeEventListener('resize', onResize));
-  document.fonts?.ready.then(onResize);
-
-  applyPaperAnchor(root, paper, params.anchor, false);
-}
-
-/** Anchor may be "q3" (a whole question) or a part id like "dec25-q4a". */
-function applyPaperAnchor(root, paper, anchor, scroll = true) {
-  const m = anchor?.match(/^q(\d+)$/);
-  if (m) return root.__show(m[1], { scroll });
-  if (anchor) {
-    const q = paper.questions.find((x) => x.parts.some((p) => p.id === anchor));
-    if (q) return root.__show(q.number, { openPart: anchor, smooth: scroll });
-  }
-  root.__show(paper.questions[0].number, { scroll: false });
-  if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-let suppressHashUntil = 0; // don't rewrite the address while scrolling to a requested spot
-
+/** Scroll to a card / question and open its dropdown. */
 function focusAnchor(root, anchorId, { smooth = true } = {}) {
   if (!anchorId) return;
-  suppressHashUntil = performance.now() + (smooth ? 1400 : 900);
   const el = root.querySelector(`#${CSS.escape(anchorId)}`);
   if (!el) return;
-  const isCard = el.classList.contains('fcard');
-  if (isCard) {
-    if (el.hidden) applyFilter(el.closest('.flow-section'), 'all');
+  if (el.classList.contains('fcard')) {
     setCardOpen(el, true);
+    el.classList.remove('is-flash');
+    void el.offsetWidth;
+    el.classList.add('is-flash');
   }
   requestAnimationFrame(() => {
     el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
-    // On first load, fonts and maths can still shift the layout: settle once more.
     if (!smooth) {
       const target = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
       const settle = () => { if (Math.abs(el.getBoundingClientRect().top - target) > 8) el.scrollIntoView({ block: 'start' }); };
       document.fonts?.ready.then(() => setTimeout(settle, 60));
       setTimeout(settle, 450);
     }
-    if (isCard) {
-      el.classList.remove('is-flash');
-      void el.offsetWidth; // restart animation
-      el.classList.add('is-flash');
-    }
   });
 }
 
-function applyFilter(scope, filter) {
-  let shown = 0;
-  const cards = scope.querySelectorAll('.fcard');
-  cards.forEach((card) => {
-    const visible = filter === 'all' || card.dataset.type === filter;
-    card.hidden = !visible;
-    const chip = document.querySelector(`.subnav [data-target="${card.id}"]`);
-    if (chip) chip.hidden = !visible;
-    if (visible) shown += 1;
-  });
-  scope.querySelectorAll('.qgroup').forEach((g) => { g.hidden = !g.querySelector('.fcard:not([hidden])'); });
-  scope.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
-  const count = scope.querySelector('[data-count]');
-  const noun = scope.querySelector('.qcard') ? 'questions' : 'formulas';
-  if (count) count.textContent = shown === cards.length ? `${cards.length} ${noun}` : `${shown} of ${cards.length} ${noun}`;
-  const empty = scope.querySelector('[data-empty]');
-  if (empty) empty.hidden = shown > 0;
-}
-
-function mountFlow(root, params, ctx) {
-  root.querySelectorAll('.flow-section').forEach((sec) => applyFilter(sec, 'all'));
-
-  root.addEventListener('click', (e) => {
-    const toggle = e.target.closest('.fcard__toggle');
-    if (toggle) {
-      const card = toggle.closest('.fcard');
-      setCardOpen(card, card.dataset.open !== 'true');
-      return;
-    }
-    const scope = e.target.closest('.flow-section');
-    const action = e.target.closest('[data-action]')?.dataset.action;
-    if (scope && (action === 'expand-all' || action === 'collapse-all')) {
-      scope.querySelectorAll('.fcard:not([hidden])').forEach((c) => setCardOpen(c, action === 'expand-all'));
-      return;
-    }
-    const filterBtn = e.target.closest('[data-filter]');
-    if (scope && filterBtn) {
-      applyFilter(scope, filterBtn.dataset.filter);
-      root.__spy?.();
-      return;
-    }
-    const copy = e.target.closest('[data-copy-link]');
-    if (copy) {
-      const url = `${location.origin}${location.pathname}${copy.dataset.copyLink}`;
-      const done = () => ctx.toast('Link copied');
-      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done, () => ctx.toast(url));
-      else ctx.toast(url);
-    }
-  });
-
-  /* Scroll-spy: as you scroll, track the section (top tabs) and the card (sub-nav) in view */
-  const sections = [...root.querySelectorAll('.flow-section')];
-  const strip = root.querySelector('[data-subnav]');
-  const label = root.querySelector('[data-subnav-label]');
-  const topTabs = document.querySelector('[data-slot="tabs"]');
-  const subnav = root.querySelector('.subnav');
-  let curSection = null;
-  let curChip = null;
-
-  const setSection = (sec) => {
-    if (sec === curSection) return;
-    curSection = sec;
-    const section = sectionById.get(sec.dataset.section);
-    strip.querySelectorAll('[data-group]').forEach((g) => { g.hidden = g.dataset.group !== section.id; });
-    strip.querySelectorAll('a[aria-current]').forEach((a) => a.removeAttribute('aria-current'));
-    strip.scrollLeft = 0;
-    label.textContent = section.kind === 'paper' ? `Paper · ${section.short}` : section.title;
-    subnav.dataset.accent = section.accent;
-    document.body.dataset.accent = section.accent;
-    document.title = `${section.title} · Finance Past Papers`;
-    // top tabs
-    topTabs.querySelectorAll('[data-nav]').forEach((a) => {
-      if (a.dataset.nav === `section:${section.id}`) a.setAttribute('aria-current', 'page');
-      else a.removeAttribute('aria-current');
-    });
-    document.querySelectorAll('.sidebar [data-nav]').forEach((a) => {
-      if (a.dataset.nav === `section:${section.id}`) a.setAttribute('aria-current', 'page');
-      else a.removeAttribute('aria-current');
-    });
-    moveInk(topTabs, topTabs.querySelector('[aria-current="page"]'));
-    // keep the address in step without triggering navigation
-    const want = `#/papers/${section.id}`;
-    if (performance.now() > suppressHashUntil && !location.hash.startsWith(want + '/') && location.hash !== want) history.replaceState(null, '', want);
-    curChip = null;
-  };
-
-  const spy = () => {
-    const line = 112 + window.innerHeight * 0.22;
-    let sec = sections[0];
-    for (const s of sections) if (s.getBoundingClientRect().top <= line) sec = s;
-    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
-    if (atBottom) sec = sections[sections.length - 1];
-    setSection(sec);
-
-    const group = strip.querySelector(`[data-group="${sec.dataset.section}"]`);
-    const chips = [...group.querySelectorAll('a[data-target]')].filter((c) => !c.hidden);
-    let chip = chips[0];
-    for (const c of chips) {
-      const el = root.querySelector(`#${CSS.escape(c.dataset.target)}`);
-      if (el && el.getBoundingClientRect().top <= line) chip = c;
-    }
-    if (atBottom) chip = chips[chips.length - 1];
-    if (chip !== curChip) {
-      curChip = chip;
-      group.querySelectorAll('a[data-target]').forEach((c) => c.setAttribute('aria-current', String(c === chip)));
-      moveInk(strip, chip);
-    }
-  };
-
-  // Links to a section or card on this page scroll smoothly instead of re-routing
-  const onLinkClick = (e) => {
-    const a = e.target.closest('a[href^="#/papers/"]');
-    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-    const m = a.getAttribute('href').match(/^#\/papers\/([^/]+)(?:\/([^/]+))?$/);
-    if (!m || !sectionById.has(m[1])) return;
-    const id = m[2] || m[1];
-    if (!root.querySelector(`#${CSS.escape(id)}`)) return;
-    e.preventDefault();
-    document.getElementById('sidebar')?.setAttribute('data-open', 'false');
-    document.querySelector('.backdrop')?.setAttribute('data-open', 'false');
-    if (location.hash !== a.getAttribute('href')) history.pushState(null, '', a.getAttribute('href'));
-    focusAnchor(root, id);
-  };
-  document.addEventListener('click', onLinkClick);
-  ctx.onLeave(() => document.removeEventListener('click', onLinkClick));
-
-  let ticking = false;
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => { ticking = false; spy(); });
-  };
-  const onResize = () => {
-    if (curChip) moveInk(strip, curChip, { scroll: false });
-    moveInk(topTabs, topTabs.querySelector('[aria-current="page"]'), { scroll: false });
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onResize);
-  ctx.onLeave(() => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onResize); });
-  root.__spy = () => { curChip = null; spy(); };
-
-  if (params.anchor) focusAnchor(root, params.anchor, { smooth: false });
-  else if (params.section && params.section !== SECTIONS[0]) focusAnchor(root, params.section.id, { smooth: false });
-  requestAnimationFrame(spy);
-  document.fonts?.ready.then(() => root.__spy?.());
-}
+/** "q3" means the whole of Question 3 on a paper page. */
+const resolveAnchor = (section, anchor) => (/^q\d+$/.test(anchor ?? '') && section.kind === 'paper' ? `${section.id}-${anchor}` : anchor);
 
 export default {
-  key: (p) => (p.section ? `library:${p.section.id}` : 'library:index'),
+  key: (p) => `page:${p.section.id}`,
 
   match(seg) {
+    if (seg.length === 0) return { section: SECTIONS[0] }; // home = first tab
     if (seg[0] !== 'papers') return null;
-    if (seg.length === 1) return {};
+    if (seg.length === 1) return { section: SECTIONS[0] };
     const section = sectionById.get(seg[1]);
     if (!section || seg.length > 3) return null;
     return { section, anchor: seg[2] };
   },
 
   render(p) {
-    if (!p.section) return { title: 'All papers & topics', nav: 'library', html: renderIndex() };
     return {
       title: p.section.title,
       nav: `section:${p.section.id}`,
       accent: p.section.accent,
-      html: p.section.kind === 'paper' ? renderPaper(p.section) : renderFlow([p.section]),
+      html: p.section.kind === 'paper' ? renderPaper(p.section) : renderFormulaSheet(p.section),
     };
   },
 
   mount(root, p, ctx) {
-    if (!p.section) return;
-    if (p.section.kind === 'paper') mountPaper(root, p, ctx);
-    else mountFlow(root, p, ctx);
+    root.addEventListener('click', (e) => {
+      const toggle = e.target.closest('.fcard__toggle');
+      if (toggle) {
+        const card = toggle.closest('.fcard');
+        setCardOpen(card, card.dataset.open !== 'true');
+        return;
+      }
+      const copy = e.target.closest('[data-copy-link]');
+      if (copy) {
+        const url = `${location.origin}${location.pathname}${copy.dataset.copyLink}`;
+        if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(() => ctx.toast('Link copied'), () => ctx.toast(url));
+        else ctx.toast(url);
+      }
+    });
+    focusAnchor(root, resolveAnchor(p.section, p.anchor), { smooth: false });
   },
 
-  /** Same paper / sheet: switch question or scroll, without re-rendering. */
+  /** Same page, different anchor: scroll there without re-rendering. */
   update(root, p) {
-    if (!p.section) return;
-    if (p.section.kind === 'paper') applyPaperAnchor(root, p.section, p.anchor);
-    else focusAnchor(root, p.anchor || p.section.id);
+    if (p.anchor) focusAnchor(root, resolveAnchor(p.section, p.anchor));
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 };

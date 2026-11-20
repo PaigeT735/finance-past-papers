@@ -18,7 +18,6 @@ export function renderBrand() {
 /* ---------- Top tabs ---------- */
 export function renderTabs() {
   const tabs = [
-    `<a class="tab" href="#/papers" data-nav="library">All</a>`,
     ...SECTIONS.map((s) => `<a class="tab" href="#/papers/${s.id}" data-nav="section:${s.id}" data-accent="${s.accent}" title="${escapeHtml(s.title)}">${escapeHtml(s.short)}</a>`),
   ].join('');
   return `<div class="tabs__track">${tabs}<span class="ink" aria-hidden="true"></span></div>`;

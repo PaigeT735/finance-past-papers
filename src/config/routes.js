@@ -11,9 +11,8 @@
  *
  * Future areas (past papers, practice questions, quizzes) are added here.
  */
-import home from '../views/home.js';
 import library from '../views/library.js';
 import notFound from '../views/not-found.js';
 
-export const ROUTES = [home, library];
+export const ROUTES = [library];
 export const NOT_FOUND = notFound;

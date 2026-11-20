@@ -10,8 +10,8 @@ import { TOPICS } from './topics.js';
 export const PAPERS = [dec2025];
 export const FORMULA_SHEET = formulaSheet;
 
-/** Everything shown on the continuous revision page, in order. */
-export const SECTIONS = [...PAPERS, FORMULA_SHEET];
+/** Pages in tab order: the formula sheet, then each exam (newest first). */
+export const SECTIONS = [FORMULA_SHEET, ...PAPERS];
 export const sectionById = new Map(SECTIONS.map((s) => [s.id, s]));
 
 /** Question parts: partId -> { part, question, section } */

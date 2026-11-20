@@ -212,3 +212,18 @@ main { flex: 1; outline: none; }
 /* Keep wide formulas scrolling inside their box instead of widening the page */
 .view, .page, .page__inner, .section-wrap, .cards, .fcard, .fcard__content, .block-col, .block, .tables, .ctable { min-width: 0; }
 .cards { grid-template-columns: minmax(0, 1fr); }
+
+/* Simple layout: the tabs are the whole navigation, on every screen size */
+.topnav .menu-btn { display: none !important; }
+@media (max-width: 860px) {
+  .topnav .tabs { display: block; }
+  .topnav .brand { margin-right: 0; }
+  .topnav__tools { flex: 0 1 auto; }
+  .search { width: 180px; }
+}
+@media (max-width: 560px) {
+  .topnav .brand { display: none; }
+  .topbar__search { display: none !important; }
+  .topnav__tools { margin-left: auto; }
+  .tabs__track { padding: 0 4px; }
+}

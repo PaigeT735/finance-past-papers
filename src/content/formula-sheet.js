@@ -9,7 +9,7 @@ export default {
   kind: 'formulas',
   id: 'formula-sheet',
   title: 'Formula Sheet',
-  short: 'Formulas',
+  short: 'Formula Sheet',
   accent: 'consumer',
   summary: t`Every formula the papers have needed so far, with when to use it, the usual traps and a short worked example.`,
   cards: [

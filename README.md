@@ -1,6 +1,6 @@
 # Finance Past Papers
 
-Revision site for **BUU22550 Introduction to Finance** (Trinity Business School): past papers with full model answers, step-by-step working for every calculation, exam tips, a finance formula sheet and a topic index.
+Revision site for **BUU22550 Introduction to Finance** (Trinity Business School). The top bar has one tab for the **Formula Sheet** and one tab per **past exam**. Each exam page lists its questions; every answer opens in a dropdown under its question.
 
 It uses the same design and engine as the Econ A Formula Library: plain HTML, CSS and JavaScript (ES modules), no build step, KaTeX and fonts bundled in `assets/`. Light mode by default, with a dark-mode toggle.
 
@@ -30,7 +30,7 @@ The site goes live at `https://paiget735.github.io/finance-past-papers/`.
 2. Change `id` (e.g. `dec-2024`), `title`, `short`, `summary`, `meta`, and replace the questions.
    - Each question part needs a unique `id` (e.g. `dec24-q1a`), a `label` (`1(a)`), `marks`, `type` (`essay` or `calc`) and the `prompt`.
    - Optional: `approach`, `given`, `working`, `result` (calculations), `answer` (blocks with `heading`, `paras`, `formula`, `list`, `table`), `tips`, `topics`, `formulas`.
-3. Import it in `src/content/index.js` and add it to `PAPERS` (newest first).
+3. Import it in `src/content/index.js` and add it to `PAPERS` (newest first). It gets its own tab automatically.
 4. New topics go in `src/content/topics.js`; new formulas in `src/content/formula-sheet.js`.
 5. Check it: `npm install` once, then `npm run check`.
 6. Push: `git add . && git commit -m "Add Dec 2024 paper" && git push`.

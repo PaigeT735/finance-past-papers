@@ -4,10 +4,11 @@
  * and add it to PAPERS below, newest first.
  */
 import dec2025 from './papers/2025-12.js';
+import dec2024 from './papers/2024-12.js';
 import formulaSheet from './formula-sheet.js';
 import { TOPICS } from './topics.js';
 
-export const PAPERS = [dec2025];
+export const PAPERS = [dec2025, dec2024];
 export const FORMULA_SHEET = formulaSheet;
 
 /** Pages in tab order: the formula sheet, then each exam (newest first). */

@@ -9,6 +9,7 @@ export const TOPICS = [
   { id: 'capital-budgeting', label: 'Capital budgeting & NPV' },
   { id: 'cash-flow-estimation', label: 'Cash flow estimation & risk analysis' },
   { id: 'equity-bonds', label: 'Equity & bonds as investments' },
+  { id: 'bond-yields', label: 'Bond prices & yields' },
   { id: 'capital-structure', label: 'Capital structure' },
   { id: 'cost-of-capital', label: 'Cost of capital & WACC' },
   { id: 'valuation', label: 'Share valuation (DDM)' },

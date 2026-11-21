@@ -32,7 +32,7 @@ function applyTheme(theme) {
   else delete document.documentElement.dataset.theme;
   themeBtn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
   themeBtn.title = theme === 'dark' ? 'Light mode' : 'Dark mode';
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0a111e' : '#eef3f9');
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#0a111e' : '#e8e7e4');
 }
 applyTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
 themeBtn.addEventListener('click', () => {

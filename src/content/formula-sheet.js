@@ -141,7 +141,7 @@ export default {
       title: 'Weighted average cost of capital (WACC)',
       summary: t`The blended after-tax return required by all investors, weighted by market values.`,
       formula: t`WACC = \frac{E}{V}\,r_E + \frac{D}{V}\,r_D\,(1 - T_c)`,
-      paper: ['Dec 2025 Q4', 'May 2022 Q3'],
+      paper: ['Dec 2025 Q4', 'May 2022 Q3', 'May 2021 Q4'],
       tags: ['WACC', 'cost of capital', 'hurdle rate', 'discount rate', 'market value weights'],
       variables: [[t`E`, 'Market value of equity (shares × price)'], [t`D`, 'Market value of debt (face × quoted price)'], [t`V = D + E`, 'Total firm value'], [t`r_D`, 'Pre-tax cost of debt (YTM)'], [t`T_c`, 'Corporate tax rate']],
       when: t`Discount rate for average-risk projects and for valuing the whole firm.`,
@@ -198,7 +198,7 @@ export default {
       title: 'Modigliani–Miller propositions and the tax shield',
       summary: t`M&M (1958): in perfect markets capital structure does not change firm value. M&M (1963): with corporate taxes, debt adds value through the interest tax shield, and the cost of equity rises more slowly with leverage.`,
       formula: t`V_L = V_U \;\;(\text{no tax}) \qquad V_L = V_U + t_c D \;\;(\text{with tax})`,
-      paper: ['Dec 2025 Q3', 'May 2022 Q2'],
+      paper: ['Dec 2025 Q3', 'May 2022 Q2', 'May 2021 Q5'],
       tags: ['Modigliani Miller', 'MM', 'M&M', 'proposition I', 'proposition II', 'tax shield', 'capital structure', 'leverage', 'trade-off', 'cost of equity'],
       forms: [
         { label: 'Prop. II, no taxes: cost of equity rises linearly with D/E', tex: t`r_E = r_0 + (r_0 - r_D)\frac{D}{E}` },

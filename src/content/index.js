@@ -6,10 +6,11 @@
 import dec2025 from './papers/2025-12.js';
 import dec2024 from './papers/2024-12.js';
 import may2022 from './papers/2022-05.js';
+import may2021 from './papers/2021-05.js';
 import formulaSheet from './formula-sheet.js';
 import { TOPICS } from './topics.js';
 
-export const PAPERS = [dec2025, dec2024, may2022];
+export const PAPERS = [dec2025, dec2024, may2022, may2021];
 export const FORMULA_SHEET = formulaSheet;
 
 /** Pages in tab order: the formula sheet, then each exam (newest first). */

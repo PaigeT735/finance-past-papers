@@ -7,14 +7,20 @@ import dec2025 from './papers/2025-12.js';
 import dec2024 from './papers/2024-12.js';
 import may2022 from './papers/2022-05.js';
 import may2021 from './papers/2021-05.js';
+import apr2020 from './papers/2020-04.js';
+import mockA from './papers/mock-a.js';
+import mockB from './papers/mock-b.js';
+import mockC from './papers/mock-c.js';
+import GUIDE_PAGE from './guide.js';
 import formulaSheet from './formula-sheet.js';
 import { TOPICS } from './topics.js';
 
-export const PAPERS = [dec2025, dec2024, may2022, may2021];
+export const PAPERS = [dec2025, dec2024, may2022, may2021, apr2020, mockA, mockB, mockC];
+export const GUIDE = GUIDE_PAGE;
 export const FORMULA_SHEET = formulaSheet;
 
-/** Pages in tab order: the formula sheet, then each exam (newest first). */
-export const SECTIONS = [FORMULA_SHEET, ...PAPERS];
+/** Pages in tab order: formula sheet, trends, past exams (newest first), then the mock exams. */
+export const SECTIONS = [FORMULA_SHEET, GUIDE, ...PAPERS];
 export const sectionById = new Map(SECTIONS.map((s) => [s.id, s]));
 
 /** Question parts: partId -> { part, question, section } */

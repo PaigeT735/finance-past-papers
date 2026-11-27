@@ -117,7 +117,7 @@
 .tabs__track { position: relative; height: 100%; display: flex; align-items: stretch; padding: 0 12px; width: max-content; }
 .tab {
   display: flex; align-items: center;
-  padding: 0 11px;
+  padding: 0 7px;
   font-size: 0.92rem; font-weight: 500;
   color: var(--ink-3);
   white-space: nowrap;
@@ -188,7 +188,7 @@ main { flex: 1; outline: none; }
 @media (max-width: 1180px) {
   .topnav .brand__sub { display: none; }
   .topnav__inner { gap: var(--s-3); padding: 0 var(--s-4); }
-  .search { width: 220px; }
+  .search { width: 180px; }
 }
 @media (max-width: 860px) {
   .menu-btn { display: inline-flex !important; }
@@ -227,3 +227,6 @@ main { flex: 1; outline: none; }
   .topnav__tools { margin-left: auto; }
   .tabs__track { padding: 0 4px; }
 }
+
+/* Divider between tab groups (formula sheet + trends | past papers | mocks) */
+.tabs__sep { align-self: center; width: 1px; height: 16px; margin: 0 4px; background: var(--line-2, var(--line-1)); flex: none; }

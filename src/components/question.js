@@ -26,7 +26,7 @@ function table(tb) {
 }
 
 /** One block of a model answer: heading + any of paras / formula / list / table. */
-function answerBlock(b) {
+export function answerBlock(b) {
   return `<section class="block block--answer">
     ${b.heading ? label(escapeHtml(b.heading)) : ''}
     ${paras(b.paras)}

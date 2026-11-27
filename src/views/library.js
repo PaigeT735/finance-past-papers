@@ -6,7 +6,7 @@
  */
 import { SECTIONS, sectionById } from '../content/index.js';
 import { renderCard, setCardOpen } from '../components/card.js';
-import { renderQuestionPart } from '../components/question.js';
+import { renderQuestionPart, answerBlock } from '../components/question.js';
 import { rich, escapeHtml } from '../lib/rich.js';
 
 function renderFormulaSheet(section) {
@@ -18,6 +18,28 @@ function renderFormulaSheet(section) {
         <p class="section-hero__lede">${rich(section.summary)}</p>
       </header>
       <div class="cards">${section.cards.map((c, i) => renderCard(c, section, i)).join('')}</div>
+    </div>
+  </div>`;
+}
+
+/** Trends & predictions page: a table of contents, then one panel per section. */
+function renderGuide(section) {
+  const toc = section.sections.map((s) => `<a href="#/papers/${section.id}/${s.id}">${escapeHtml(s.title)}</a>`).join('<span aria-hidden="true">·</span>');
+  const body = section.sections
+    .map((s) => `<section class="qgroup guide-sec" id="${s.id}">
+        <div class="qgroup__head"><h2 class="qgroup__num">${escapeHtml(s.title)}</h2></div>
+        <div class="guide-body">${s.blocks.map(answerBlock).join('')}</div>
+      </section>`)
+    .join('');
+  return `
+  <div class="page" data-accent="${section.accent}">
+    <div class="section-wrap">
+      <header class="section-hero">
+        <h1 class="section-hero__title">${escapeHtml(section.title)}</h1>
+        <p class="section-hero__lede">${rich(section.summary)}</p>
+        <nav class="guide-toc" aria-label="On this page">${toc}</nav>
+      </header>
+      ${body}
     </div>
   </div>`;
 }
@@ -91,7 +113,7 @@ export default {
       title: p.section.title,
       nav: `section:${p.section.id}`,
       accent: p.section.accent,
-      html: p.section.kind === 'paper' ? renderPaper(p.section) : renderFormulaSheet(p.section),
+      html: p.section.kind === 'paper' ? renderPaper(p.section) : p.section.kind === 'guide' ? renderGuide(p.section) : renderFormulaSheet(p.section),
     };
   },
 

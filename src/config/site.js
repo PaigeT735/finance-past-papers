@@ -2,7 +2,7 @@
  * Site-wide configuration and the navigation registry.
  * New papers appear in the navigation automatically once added to src/content/index.js.
  */
-import { PAPERS, FORMULA_SHEET } from '../content/index.js';
+import { PAPERS, FORMULA_SHEET, GUIDE } from '../content/index.js';
 
 export const SITE = {
   name: 'Finance',
@@ -18,6 +18,7 @@ export const NAV_GROUPS = [
     label: 'Pages',
     items: [
       { id: `section:${FORMULA_SHEET.id}`, label: FORMULA_SHEET.title, href: `#/papers/${FORMULA_SHEET.id}`, accent: FORMULA_SHEET.accent },
+      { id: `section:${GUIDE.id}`, label: GUIDE.title, href: `#/papers/${GUIDE.id}`, accent: GUIDE.accent },
       ...PAPERS.map((p) => ({ id: `section:${p.id}`, label: p.title, href: `#/papers/${p.id}`, accent: p.accent })),
     ],
   },

@@ -7,6 +7,7 @@ import { t } from '../../lib/tag.js';
  */
 export default {
   kind: 'paper',
+  group: 'past',
   id: 'dec-2024',
   title: 'December 2024',
   short: 'Dec 2024',

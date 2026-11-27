@@ -132,6 +132,19 @@ for (const paper of PAPERS) {
   }
 }
 
+// ---- Trends guide ----
+const { GUIDE } = await import('../src/content/index.js');
+for (const sec of GUIDE.sections) {
+  (sec.blocks ?? []).forEach((b, i) => {
+    const w = `guide/${sec.id}[${i}]`;
+    [].concat(b.paras ?? []).forEach((x) => checkRich(x, `${w}.paras`));
+    (b.list ?? []).forEach((x) => (typeof x === 'string' ? checkRich(x, `${w}.list`) : [x.label, ...x.items].forEach((y) => checkRich(y, `${w}.list`))));
+    if (b.formula) render(b.formula, true, `${w}.formula`);
+    b.table?.columns.forEach((x) => checkRich(x, `${w}.table`));
+    b.table?.rows.flat().forEach((x) => checkRich(x, `${w}.table`));
+  });
+}
+
 for (const [from, to] of allRelated) {
   if (!ids.has(to)) errors.push(`${from}: related link to unknown id "${to}"`);
 }

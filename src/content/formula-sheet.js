@@ -7,9 +7,10 @@ import { t } from '../lib/tag.js';
  */
 export default {
   kind: 'formulas',
+  group: 'ref',
   id: 'formula-sheet',
   title: 'Formula Sheet',
-  short: 'Formula Sheet',
+  short: 'Formulas',
   accent: 'consumer',
   summary: t`Every formula the papers have needed so far, with when to use it, the usual traps and a short worked example.`,
   cards: [

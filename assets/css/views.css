@@ -194,3 +194,12 @@ details.paper-meta .meta-list { margin-top: 0; }
 
 .qgroup + .qgroup { margin-top: var(--s-12); }
 .section-hero { padding-bottom: var(--s-6); }
+
+/* ---------- Trends guide ---------- */
+.guide-toc { margin-top: var(--s-5); display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: var(--fs-sm); color: var(--ink-4); }
+.guide-toc a { color: var(--ink-2); border-bottom: 1px solid var(--line-2); }
+.guide-toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.guide-body { display: grid; gap: var(--s-5); padding: var(--s-5) var(--s-6); border-radius: var(--r-lg, 14px); background: var(--glass-panel); border: 1px solid var(--glass-edge); }
+.guide-body .block + .block { margin-top: 0; }
+.guide-sec { scroll-margin-top: calc(var(--topnav-h, 64px) + 16px); }
+@media (max-width: 600px) { .guide-body { padding: var(--s-4); } }

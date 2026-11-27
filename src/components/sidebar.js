@@ -17,9 +17,11 @@ export function renderBrand() {
 
 /* ---------- Top tabs ---------- */
 export function renderTabs() {
-  const tabs = [
-    ...SECTIONS.map((s) => `<a class="tab" href="#/papers/${s.id}" data-nav="section:${s.id}" data-accent="${s.accent}" title="${escapeHtml(s.title)}">${escapeHtml(s.short)}</a>`),
-  ].join('');
+  // A thin divider between groups: (formula sheet, trends) | past papers | mock exams
+  const tabs = SECTIONS.map((s, i) => {
+    const sep = i > 0 && (s.group ?? '') !== (SECTIONS[i - 1].group ?? '') ? '<span class="tabs__sep" aria-hidden="true"></span>' : '';
+    return `${sep}<a class="tab" href="#/papers/${s.id}" data-nav="section:${s.id}" data-accent="${s.accent}" title="${escapeHtml(s.title)}">${escapeHtml(s.short)}</a>`;
+  }).join('');
   return `<div class="tabs__track">${tabs}<span class="ink" aria-hidden="true"></span></div>`;
 }
 

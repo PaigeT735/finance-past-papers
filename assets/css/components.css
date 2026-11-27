@@ -42,7 +42,7 @@ kbd {
 .badge--ext { color: var(--ink-3); border-style: dashed; }
 
 /* ---------- Search ---------- */
-.search { position: relative; width: 280px; }
+.search { position: relative; width: 210px; }
 .topbar__search { display: flex; justify-content: flex-end; min-width: 0; flex: 1 1 auto; }
 .search__field {
   display: flex; align-items: center; gap: var(--s-2);

@@ -7,6 +7,7 @@ import { t } from '../../lib/tag.js';
  */
 export default {
   kind: 'paper',
+  group: 'past',
   id: 'may-2022',
   title: 'May 2022',
   short: 'May 2022',
